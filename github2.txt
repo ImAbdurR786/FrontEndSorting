@@ -1,0 +1,609 @@
+// home page
+
+<!-- Header -->
+<nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class=" collapse navbar-collapse" id="navbarNav">
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">CapStore</a>
+                </div>
+                <div class="nav navbar-nav navbar-right">
+                    <ul class="navbar-nav">
+                        <li class="nav-centered">
+                            <input type="text" class="form-control" placeholder="Search" name="search">
+                        </li>
+                        <li>
+                            <a href=""> <button type="button" class="btn btn-danger">Go</button></a>
+                        </li>
+                        <li>
+                            <a routerLink="/display"> <button type="button" class="btn btn-danger">ViewCart</button></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</nav>
+<!--      -->
+
+
+<!-- Options for Sorting -->
+<div>
+    <form #sorting="ngForm" (ngSubmit)="sort(sorting.value)">
+        <label class="radio-inline">
+            <input type="radio" value="Ascending" name="sort" [(ngModel)]="SortBy" ngModel>
+            Ascending
+        </label>
+        <label class="radio-inline">
+            <input type="radio" value="Descending" name="sort" [(ngModel)]="SortBy" ngModel>
+            Descending
+        </label>
+        <label class="radio-inline">
+            <input type="radio" value="mostviewed" name="sort" [(ngModel)]="SortBy" ngModel>
+            MostViewed
+        </label>
+        <label class="radio-inline">
+            <input type="radio" value="bestSeller" name="sort" [(ngModel)]="SortBy" ngModel>
+            BestSeller
+        </label>
+       
+        <!-- <label class="radio-inline">
+                <input type="radio" value="range" name="sort"  [(ngModel)]="SortBy" ngModel>
+                Range
+        </label> -->
+        
+            <input type="text" class="form-control" placeholder="Category" name="category" ngModel>
+        <input type="submit" class="btn btn-danger">
+    </form>
+</div>
+
+
+
+
+<!-- Displaying the products -->
+<div class="navbar-header">
+    <a class="navbar-brand" href="#">Product Details</a>
+</div>
+<table class="table" border="2">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Price</th>
+    </tr>
+    <tr *ngFor="let obj of Products">
+        <!--<tr *ngFor="let obj of products">  -->
+        <td></td>
+        <td>{{obj}}</td>
+        <td></td>
+    </tr>
+</table>
+
+
+
+<!-- Footer -->
+<footer class="page-footer font-small teal pt-4">
+
+    <!-- Footer Text -->
+    <div class="container-fluid text-center text-md-left">
+
+        <!-- Grid row -->
+        <div class="row">
+
+            <!-- Grid column -->
+            <div class="col-md-6 mt-md-0 mt-3">
+
+                <!-- Content -->
+                <h5 class="text-uppercase font-weight-bold"> Delivery Information</h5>
+                <a href="">Help</a><br>
+                <a href="">Privacy Policy</a><br>
+
+                <a href="">Terms & Conditions</a><br>
+
+                <a href="">Returns Policy</a>
+
+            </div>
+            <!-- Grid column -->
+
+            <hr class="clearfix w-100 d-md-none pb-3">
+
+            <!-- Grid column -->
+            <div class="col-md-6 mb-md-0 mb-3">
+
+                <!-- Content -->
+                <h5 class="text-uppercase font-weight-bold">Customer Services</h5>
+                <a href=""> Contact Us</a><br>
+                <a href="">Delivery Information</a><br>
+                <a href=""> Help</a>
+                <!-- 
+                                    <div class="col-md-6 mb-md-0 mb-3">
+                                            <h5 class="text-uppercase font-weight-bold">About CapStore</h5>
+                                            <a href="">Our Story</a>
+
+                                    </div> -->
+            </div>
+            <!-- Grid column -->
+
+        </div>
+        <!-- Grid row -->
+
+    </div>
+    <!-- Footer Text -->
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2018 Copyright:
+        <a href="https://capgemini.com"> Capgemini.com</a>
+    </div>
+    <!-- Copyright -->
+
+</footer>
+
+
+
+
+
+// home page ts
+
+import { Component, OnInit } from '@angular/core';
+import { BookService } from '../book.service';
+import { Router } from '@angular/router';
+
+@Component({
+  selector: 'app-add',
+  templateUrl: './add.component.html',
+  styleUrls: ['./add.component.css']
+})
+export class AddComponent implements OnInit {
+service: BookService;
+  
+Products: String[] = ["Laptop","Mobile","Telephone"];
+Sorting: String[] = ["Sorting","Laptop","Mobile","Telephone"];
+router: Router;
+
+//products: Products[] = [];
+  
+constructor(service: BookService, router: Router) {
+    this.service = service;
+    this.router =router; 
+  }
+  
+  Strings: string;
+
+  getAllproducts(){
+
+   // this.service.getAllproducts().subscribe(data=> { this.products = data});
+  }
+
+  sort(data: any){
+    console.log(data.category);
+    console.log(data.sort);
+    this.Strings =  this.service.sort(data);
+   //this.service.sort(data).subscribe(data=> {this.products = data});
+  //  console.log(this.Strings);
+  }
+
+   ngOnInit() {
+     this.getAllproducts();
+  }
+
+}
+
+
+
+
+
+
+
+
+
+
+// view cart '
+
+
+<nav class="navbar navbar-expand-sm bg-primary navbar-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class=" collapse navbar-collapse" id="navbarNav">
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Cart</a>
+                </div>
+                <div class="nav navbar-nav navbar-right">
+
+
+                    <ul class="navbar-nav">
+                        <li class="nav-centered">
+                            <input type="text" class="form-control" placeholder="Search" name="search">
+                        </li>
+                        <li class="nav-centered">
+                            <a href=""> <button type="button" class="btn btn-danger">Go</button></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+</nav>
+<br>
+<br>
+<table class="table" border="2">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Total</th>
+        <th></th>
+    </tr>
+    <tr *ngFor="let obj of Products">
+        <td>{{cart.cartId}}</td>
+        <td>{{obj}}</td>
+        <td>{{price}}</td>
+        <td>{{cart.quantity}}</td>
+        <td>{{cart.quantity* price}}</td>
+        <td><input type="submit" class="btn btn-danger" (click)="remove(cart.cartId)" value="Remove"></td>
+    </tr>
+</table>
+
+<td style="text-align: right"  colspan="7" >
+        <sub>** (Shipping charges for shopping below 500)</sub>  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
+        Shipping Charges: {{shippingCharge}}</td>
+<div id="CheckOut">
+    <input type="button" class="btn btn-success" value="CheckOut">
+</div>
+
+
+
+
+<footer class="page-footer font-small teal pt-4">
+
+    <!-- Footer Text -->
+    <div class="container-fluid text-center text-md-left">
+
+        <!-- Grid row -->
+        <div class="row">
+
+            <!-- Grid column -->
+            <div class="col-md-6 mt-md-0 mt-3">
+
+                <!-- Content -->
+                <h5 class="text-uppercase font-weight-bold"> Delivery Information</h5>
+                <a href="">Help</a><br>
+                <a href="">Privacy Policy</a><br>
+
+                <a href="">Terms & Conditions</a><br>
+
+                <a href="">Returns Policy</a>
+
+            </div>
+            <!-- Grid column -->
+
+            <hr class="clearfix w-100 d-md-none pb-3">
+
+            <!-- Grid column -->
+            <div class="col-md-6 mb-md-0 mb-3">
+
+                <!-- Content -->
+                <h5 class="text-uppercase font-weight-bold">Customer Services</h5>
+                <a href=""> Contact Us</a><br>
+                <a href="">Delivery Information</a><br>
+                <a href=""> Help</a>
+                <!-- 
+                                        <div class="col-md-6 mb-md-0 mb-3">
+                                                <h5 class="text-uppercase font-weight-bold">About CapStore</h5>
+                                                <a href="">Our Story</a>
+    
+                                        </div> -->
+            </div>
+            <!-- Grid column -->
+
+        </div>
+        <!-- Grid row -->
+
+    </div>
+    <!-- Footer Text -->
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">© 2018 Copyright:
+        <a href="https://capgemini.com"> Capgemini.com</a>
+    </div>
+    <!-- Copyright -->
+</footer>
+
+
+
+
+
+// view cart ts
+
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { BookService} from '../book.service';
+import { Book } from '../book';
+import { Router } from '@angular/router';
+import { CArt } from '../cart';
+import { Products } from '../products';
+
+@Component({
+  selector: 'app-display',
+  templateUrl: './display.component.html',
+  styleUrls: ['./display.component.css']
+})
+export class DisplayComponent implements OnInit {
+  service:BookService;
+  // bookArr: Book[] = [];
+  Products:String[] = ["Abc"];
+  cart :CArt = new CArt();
+  product : Products = new Products();
+  products: Products[] = [];
+  price: number;
+  shippingCharge:number = 0;
+
+  constructor(service:BookService) {
+    this.service = service;
+    this.cart.quantity =12;
+    this.cart.cartProducts[0] = new Products();
+    this.cart.cartProducts[0].productPrice =1200;
+    this.price = this.cart.cartProducts[0].productPrice ;
+  }
+  
+  total: number;
+
+  remove(data:any){
+    console.log(data);
+  }
+  ngOnInit() {
+  //this.service.fetchData();
+  //this.bookArr = this.service.getData();
+  //this.service.getcartproduct();
+  this.cart.cartId =1; 
+  this.cart.minimumAmount=100;
+  this.cart.cartProducts = this.products;
+  
+  
+}
+}
+
+
+
+
+// delete(data:any){
+//   this.service.delete(data);
+//   this.bookArr = this.service.getData();
+// }
+
+// Isupdate: boolean = true;
+// update(){
+//   this.Isupdate = !this.Isupdate;
+// }
+
+// Updates(data:any){
+//   let book = new Book(data.updId,data.updName);
+//   this.service.updt(book);
+// }
+
+// Issearch: boolean = true;
+// search(){
+//   this.Issearch = !this.Issearch;
+// }
+
+// BookSearch: Book[] = [];
+// genre  = ["id","name"]; 
+
+// Searchs(data:any){
+//   this.BookSearch = this.service.search(data);
+// }
+
+// column:string = "id";
+// order:boolean = true;
+
+// sort(column: string){
+
+//   if(this.column == column){
+//     this.order = !this.order;
+//   }
+//   else{
+//     this.order = true;
+//     this.column = column;
+//   }
+// }
+ 
+ 
+ 
+ 
+ 
+ 
+ // app.module.ts
+ 
+ import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import {FormsModule} from '@angular/forms';
+import { DisplayComponent } from './display/display.component';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { BookService } from './book.service';
+import { AddComponent } from './add/add.component';
+import { UpdateComponent } from './update/update.component';
+import { OrderbyPipe } from './orderby.pipe';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    DisplayComponent,
+    AddComponent,
+    UpdateComponent,
+    OrderbyPipe
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule
+  ],
+  providers: [HttpClient,BookService],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+
+
+
+// Book service .ts
+
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Book } from './book';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class BookService {
+  sort(data: any){
+    //sort(data:any):  :Observable<any> {
+    console.log(data.sort);
+    console.log(data.category);
+    
+    if(data.sort==="Ascending"){
+      console.log("im in");
+     //    return this.http.get<Products[]>('http://localhost:8086/'+ data.category+ '/lowtohigh'); 
+      return "Ascending";
+    }
+
+    if(data.sort==="Descending"){
+      console.log("im in descending");
+      // return this.http.get<Products[]>('http://localhost:8086/'+ data.category+ '/hightolow'); 
+      return "Descending"
+    }
+
+    if(data.sort==="mostviewed"){
+      console.log("im in view");
+      // return this.http.get<Products[]>('http://localhost:8086/'+ data.category+ '/mostViewed'); 
+      return "View"
+    }
+
+    if(data.sort==="bestSeller"){
+      console.log("im in bestseler");
+     // return this.http.get<Products[]>('http://localhost:8086/'+ data.category+ '/BestSeller'); 
+      return "Seller"
+    }
+  }
+
+ // getAllproducts(): Observable<any>{
+   // return this.http.get<Products[]>('http://localhost:8086/products'); 
+  //}
+  
+
+  
+  http: HttpClient;
+  fetch: boolean = false;
+  book: Book;
+  bookArray: Book[] = [];
+  set_sort_option: any;
+  
+
+  constructor(http: HttpClient) {
+    this.http = http;
+   }
+
+   fetchData(){
+     this.http.get('./assets/Books.json')
+     .subscribe(data =>{
+       if(!this.fetch){
+         this.convert(data);
+         this.fetch = true;
+       }
+     })
+   }
+
+   convert(data:any){
+     
+     for(let book of data["Books"]){
+       this.book = new Book(book.id,book.name);
+       this.bookArray.push(this.book);
+     }
+   }
+
+   getData(): Book[]{
+     return this.bookArray;
+   }
+
+   delete(data:any){
+
+    let foundIndex:number = -1;
+    for(let i=0; i< this.bookArray.length; i++){
+      let refbook = this.bookArray[i];
+      if(refbook.name==data){
+        foundIndex = i;
+        break;
+      }
+    }
+    this.bookArray.splice(foundIndex,1);
+   }
+
+   add(data:any){
+     let book = new Book(data.addId,data.addName);
+     this.bookArray.push(book);
+   }
+
+   updt(data:Book){
+     for(let i=0; i<this.bookArray.length; i++){
+       let book = this.bookArray[i];
+       
+       if(book.id==data.id){
+          book.name = data.name;
+       }
+     }
+   }
+
+   BookSearch: Book[];
+   
+   search(data:any){
+     this.BookSearch = [];
+     for(let i=0; i<this.bookArray.length; i++){
+       let book = this.bookArray[i];
+       console.log(data.searchID);
+       console.log(book.id);
+       if( data.searchID == book.id){
+         this.BookSearch.push(book);} 
+     }
+     return this.BookSearch;
+   }
+
+}
+
+
+
+
+
+/cart class
+import { Customer } from './customer';
+import { Products } from './products';
+
+export class CArt {
+    cartId: number;
+    customer: Customer;
+    cartProducts : Products[]=[];
+    minimumAmount: number;
+    quantity: number;
+
+    //   constructor(cartId: number, customer: Customer, cartProducts: Products[], minimumAmount: number) {
+	// 	this.cartId = cartId;
+	// 	this.customer = customer;
+	// 	this.cartProducts = cartProducts;
+	// 	this.minimumAmount = minimumAmount;
+    // }
+    constructor(){
+
+    }
+
+}
